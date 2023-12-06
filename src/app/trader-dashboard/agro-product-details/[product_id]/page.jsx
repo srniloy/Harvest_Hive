@@ -10,7 +10,7 @@ import { TextField } from '@mui/material';
 import '@styles/farmer-dashboard.css'
 import { Suspense } from 'react';
 import Loading from '../../loading';
-import BuyingTable from '@components/BuyingTable';
+import BuyingTable from '@components/trader/BuyingTable';
 import Grid from '@mui/material/Unstable_Grid2';
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';

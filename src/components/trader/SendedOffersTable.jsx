@@ -1,0 +1,243 @@
+import React, {useRef} from 'react'
+import Paper from '@mui/material/Paper';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TablePagination from '@mui/material/TablePagination';
+import TableRow from '@mui/material/TableRow';
+import DeleteIcon from '@mui/icons-material/Delete';
+import IconButton from '@mui/material/IconButton';
+import EditIcon from '@mui/icons-material/Edit';
+import Badge from '@mui/material/Badge';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
+import { TextField, Tooltip } from '@mui/material';
+import PrintIcon from '@mui/icons-material/Print';
+import { useReactToPrint } from 'react-to-print';
+import { SubLoader } from '@app/loading';
+import AutorenewIcon from '@mui/icons-material/Autorenew';
+import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
+
+
+
+const columns = [
+    { id: 'product_name', label: 'Product Name', align: 'center', minWidth: 100, format: (value) => value,},
+    { id: 'farmer_name', label: 'Farmer', align: 'center', minWidth: 100, },
+    { id: 'quantity', label: 'Quantity', align: 'center', minWidth: 100, format: (value) => value+' kg',},
+    { id: 'price', label: 'Price (per kg)', align: 'center', minWidth: 80, format: (value) => value+' Taka', },
+    { id: 'amount', label: 'Amount', align: 'center', minWidth: 120, format: (value) => value.toLocaleString('en-US')+' Taka',},
+
+    {
+      id: 'offer_status',
+      label: 'Status',
+      minWidth: 120,
+      align: 'center',
+    },
+    
+    {
+        id: 'Actions',
+        label: 'Actions',
+        minWidth: 80,
+        align: 'center',
+      },
+     
+   
+  ];
+
+
+
+
+
+
+
+
+const SendedOffersTable = (props) => {
+
+    const [page, setPage] = React.useState(0);
+    const [rowsPerPage, setRowsPerPage] = React.useState(4);
+  
+    const handleChangePage = (event, newPage) => {
+      setPage(newPage);
+    };
+  
+    const handleChangeRowsPerPage = (event) => {
+      setRowsPerPage(+event.target.value);
+      setPage(0);
+    };
+
+    const [sendedOffersList, setSendedOffersList] = React.useState([])
+
+
+    const fetchOffers = async ()=>{
+        const postData = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({user_id: props.info.user_id}),
+        };
+    
+        const res = await fetch(
+        'http://localhost:3000/api/get/sended_offers_list',
+        postData
+        )
+        const response = await res.json()
+        setSendedOffersList(response.data)
+        console.log(response.data)
+        // setIsLoad(false)
+    }
+    
+    React.useEffect(() => {
+        fetchOffers()
+    }, []);
+
+
+
+
+
+
+
+
+
+
+
+
+  return (
+    <div style={{height: '100%', width: '100%', position: 'relative'}}>
+        <SubLoader open={false}/>
+        <Paper sx={{ width: '100%', minHeight: '400px', overflow: 'hidden', margin: '40px 0', backgroundColor: "transparent" }}>
+            <TableContainer sx={{ maxHeight: 500, minHeight: 300 }}>
+                <Table stickyHeader aria-label="sticky table">
+                <TableHead>
+                    <TableRow>
+                    {columns.map((column) => (
+                        <TableCell
+                        key={column.id}
+                        align={column.align}
+                        style={{ minWidth: column.minWidth, backgroundColor: "rgba(36, 68, 65, 0.946)" }}
+                        >
+                        {column.label}
+                        </TableCell>
+                    ))}
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    {sendedOffersList
+                    ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                    .map((row) => {
+                        return (
+                        <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
+                            {columns.map((column) => {
+                                if(column.id == 'Step'){
+                                    return (
+                                        <TableCell key={column.id} align={column.align}>
+                                            {++sellingStep}
+                                    </TableCell>
+                                    );
+                                }
+                                else if(column.id == 'offer_status'){
+                                    if(row[column.id] == 'Pending'){
+                                        return (
+                                            <TableCell key={column.id} align={column.align}>
+                                                <Button variant="outlined" color='warning' style={{fontSize:'12px'}}>
+                                                    {row[column.id]}
+                                                </Button>
+                                            </TableCell>
+                                        );
+                                    }
+                                    if(row[column.id] == 'Accepted'){
+                                        return (
+                                            <TableCell key={column.id} align={column.align}>
+                                                <Button variant="outlined" color='success' style={{fontSize:'12px'}}>
+                                                    {row[column.id]}
+                                                </Button>
+                                            </TableCell>
+                                        );
+                                    }else{
+                                        const value = row[column.id];
+                                        return (
+                                            <TableCell key={column.id} align={column.align}>
+                                            {column.format && typeof value === 'number'
+                                                ? column.format(value)
+                                                : value}
+                                            </TableCell>
+                                        );
+                                    }
+                                }
+                                else if(column.id == 'Actions'){
+                                    return(
+                                        <TableCell key={column.id} align={column.align}>
+                                        
+                                        <Tooltip title='Cancel'>
+                                            <IconButton aria-label="cancel" onClick={()=>deleteSales(row)} color='error' style={{marginRight: '20px'}}>
+                                                <CancelOutlinedIcon />
+                                            </IconButton>
+                                        </Tooltip>
+                                        <Button color='primary' startIcon={<AutorenewIcon />} variant='contained' onClick={() => handleClickOpen(row)}>
+                                            Proceed
+                                        </Button>
+                                    </TableCell>
+                                    )
+                                }
+                                else if(column.id == 'ViewOffers'){
+                                    return(
+                                        <TableCell key={column.id} align={column.align}>
+                                        
+                                        <Badge badgeContent={row.total_offers} color="primary">
+                                            <Button variant='outlined' onClick={()=>{
+                                                handleClickOpenSalesOffer()
+                                                getOffersList(row)
+                                            }} style={{fontSize: '12px'}}>Offers</Button>
+                                        </Badge>
+                                    </TableCell>
+                                    )
+                                }
+                                // else if(column.id == 'Receipt' && row['Status'] == 'Sold Out'){
+                                //     return(
+                                //         <TableCell key={column.id} align={column.align}>
+                                //             <Button variant='outlined' onClick={handleClickOpenFullInvoice} style={{fontSize: '12px'}}>Receipt</Button>
+                                //         </TableCell>
+                                //     )
+                                // }
+                                else{
+                                    const value = row[column.id];
+                                    return (
+                                        <TableCell key={column.id} align={column.align}>
+                                        {column.format && typeof value === 'number'
+                                            ? column.format(value)
+                                            : value}
+                                        </TableCell>
+                                    );
+                                }
+                            
+                            })}
+                        </TableRow>
+                        );
+                    })}
+                </TableBody>
+                </Table>
+            </TableContainer>
+            <TablePagination
+                rowsPerPageOptions={[4, 8, 10]}
+                component="div"
+                count={sendedOffersList?.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onPageChange={handleChangePage}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+            />
+        </Paper>
+    </div>
+  )
+}
+
+export default SendedOffersTable

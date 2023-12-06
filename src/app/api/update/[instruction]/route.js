@@ -132,6 +132,34 @@ export async function POST(req, { params }) {
         return new Response(JSON.stringify(res));
     }
 
+    else if (params.instruction == 'update_sales_offers_status') {
+
+        const data = await req.json()
+        console.log(data)
+        let res = {
+            message: 'Successfully updated the status',
+            status: 200
+        }
+        try {
+            const sqlLQuery = "UPDATE farmer_sales SET status=? WHERE id=? AND project_id=?"
+            const values = ['Processing', data.sales_id, data.project_id]
+
+            const sqlLQuery1 = "UPDATE offers SET status=? WHERE id=? AND offered_by=? AND sales_id=? AND project_id=?"
+            const values1 = ['Accepted', data.offer_id, data.offered_by, data.sales_id, data.project_id]
+            await dbConnection.query(sqlLQuery, values);
+            await dbConnection.query(sqlLQuery1, values1);
+
+        } catch (error) {
+            res.message = 'Database error occured'
+            res.status = 500
+            // new Error(error)
+            console.log(error)
+        }
+
+        return new Response(JSON.stringify(res));
+    }
+
+
 
 
 }

@@ -41,13 +41,6 @@ const columns = [
         format: (value) => value.toLocaleString('en-US'),
     },
     {
-        id: 'interested',
-        label: 'Interested',
-        minWidth: 80,
-        align: 'center',
-        format: (value) => value.toLocaleString('en-US'),
-    },
-    {
       id: 'status',
       label: 'Status',
       minWidth: 120,
@@ -98,17 +91,18 @@ const columns = [
 
 
   const columns1 = [
-    { id: 'Trader Name', label: 'Trader Name', align: 'left', minWidth: 180 },
-    { id: 'Trader ID', label: 'Trader ID', align: 'center', minWidth: 150 },
-    { id: 'Location', label: 'Location', align: 'center', minWidth: 150 },
-    { id: 'Quantity', label: 'Quantity', align: 'center', minWidth: 100, format: (value) => value+' kg',},
-    { id: 'Price (Per KG)', label: 'Price (per kg)', align: 'center', minWidth: 80, format: (value) => value+' Taka', },
-    {
-        id: 'Actions',
-        label: 'Actions',
-        minWidth: 80,
-        align: 'center'
-    },
+    { id: 'name', label: 'Trader Name', align: 'center', minWidth: 180 },
+    { id: 'phone', label: 'Phone', align: 'center', minWidth: 150 },
+    { id: 'address', label: 'Location', align: 'center', minWidth: 150 },
+    { id: 'quantity', label: 'Quantity', align: 'center', minWidth: 100, format: (value) => value+' kg',},
+    { id: 'price', label: 'Price (per kg)', align: 'center', minWidth: 80, format: (value) => value+' Taka', },
+    { id: 'amount', label: 'Amount', align: 'center', minWidth: 80, format: (value) => value+' Taka', },
+    // {
+    //     id: 'Actions',
+    //     label: 'Actions',
+    //     minWidth: 80,
+    //     align: 'center'
+    // },
     {
         id: 'Acceptance',
         label: 'Acceptance',
@@ -136,7 +130,7 @@ const SellingTable = (props) => {
 
     let sellingStep = 0;
     const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(8);
+    const [rowsPerPage, setRowsPerPage] = React.useState(4);
   
     const handleChangePage = (event, newPage) => {
       setPage(newPage);
@@ -203,7 +197,7 @@ const SellingTable = (props) => {
 
     let startedYear = 2009;
     const [page1, setPage1] = React.useState(0);
-    const [rowsPerPage1, setRowsPerPage1] = React.useState(5);
+    const [rowsPerPage1, setRowsPerPage1] = React.useState(4);
 
     const handleChangePage1 = (event, newPage) => {
         setPage1(newPage);
@@ -337,13 +331,51 @@ const SellingTable = (props) => {
       }
     
     
+    const [totalOffersList, setTotalOffersList] = React.useState()
+
+
+    const getOffersList = async (row)=>{
+        const postData = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            sales_id: row.id,
+            project_id: row.project_id
+        }),
+        };
+    
+        const res = await fetch(
+        'http://localhost:3000/api/get/get_sales_offer_list',
+        postData
+        )
+        const response = await res.json()
+        setTotalOffersList(response.data)
+        // console.log(response.data)
+    }
 
 
 
+    const [acceptedOfferInfo, setAcceptedOfferInfo] = React.useState()
 
 
-
-
+    const salesAndOfferStatusUpdate = async()=>{
+        console.log(acceptedOfferInfo)
+        const postData = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(acceptedOfferInfo),
+            };
+            
+        const res = await fetch(
+            'http://localhost:3000/api/update/update_sales_offers_status',
+            postData
+        )
+        const response = await res.json()
+    }
 
 
 
@@ -389,6 +421,15 @@ const SellingTable = (props) => {
                                     if(row[column.id] == 'Pending'){
                                         return (
                                             <TableCell key={column.id} align={column.align}>
+                                                <Button variant="outlined" color='primary' style={{fontSize:'12px'}}>
+                                                    {row[column.id]}
+                                                </Button>
+                                            </TableCell>
+                                        );
+                                    }
+                                    if(row[column.id] == 'Processing'){
+                                        return (
+                                            <TableCell key={column.id} align={column.align}>
                                                 <Button variant="outlined" color='warning' style={{fontSize:'12px'}}>
                                                     {row[column.id]}
                                                 </Button>
@@ -422,8 +463,11 @@ const SellingTable = (props) => {
                                     return(
                                         <TableCell key={column.id} align={column.align}>
                                         
-                                        <Badge badgeContent={sellingStep+19} color="primary">
-                                            <Button variant='outlined' onClick={handleClickOpenSalesOffer} style={{fontSize: '12px'}}>Offer</Button>
+                                        <Badge badgeContent={row.total_offers} color="primary">
+                                            <Button variant='outlined' onClick={()=>{
+                                                handleClickOpenSalesOffer()
+                                                getOffersList(row)
+                                            }} style={{fontSize: '12px'}}>Offers</Button>
                                         </Badge>
                                     </TableCell>
                                     )
@@ -515,8 +559,8 @@ const SellingTable = (props) => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {Data.projectPriceOfferData
-                            .slice(page1 * rowsPerPage1, page1 * rowsPerPage1 + rowsPerPage1)
+                            {totalOffersList
+                            ?.slice(page1 * rowsPerPage1, page1 * rowsPerPage1 + rowsPerPage1)
                             .map((row) => {
                                 return (
                                 <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
@@ -534,7 +578,10 @@ const SellingTable = (props) => {
                                         return(
                                             <TableCell key={column.id} align={column.align}>
                                             
-                                            <Button variant='outlined' onClick={handleClickOpenInvoice} style={{fontSize: '12px'}}>Accept</Button>
+                                            <Button variant='outlined' onClick={()=>{
+                                                handleClickOpenInvoice()
+                                                setAcceptedOfferInfo(row)
+                                            }} style={{fontSize: '12px'}}>Accept</Button>
 
                                         </TableCell>
                                         )
@@ -559,9 +606,9 @@ const SellingTable = (props) => {
                         </Table>
                     </TableContainer>
                     <TablePagination
-                        rowsPerPageOptions={[5, 10, 25, 100]}
+                        rowsPerPageOptions={[4, 8, 16]}
                         component="div"
-                        count={Data.traderSearch.length}
+                        count={totalOffersList?.length}
                         rowsPerPage={rowsPerPage1}
                         page={page1}
                         onPageChange={handleChangePage1}
@@ -671,15 +718,16 @@ const SellingTable = (props) => {
         }}
         >
             <DialogTitle id="alert-dialog-title">
-            {"Review the Order"}
+            {"Are you sure to go forward with this price ?"}
             </DialogTitle>
-            <DialogContent>
-                <Invoice size='half'/>
-            </DialogContent>
+            
             <DialogActions>
             <Button onClick={handleCloseInvoice}>Cancel</Button>
-            <Button onClick={handleCloseInvoice} autoFocus>
-                Confirm
+            <Button onClick={()=>{
+                handleCloseInvoice()
+                salesAndOfferStatusUpdate()
+            }} autoFocus>
+                Proceed
             </Button>
             </DialogActions>
         </Dialog>

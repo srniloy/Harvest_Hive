@@ -1,4 +1,4 @@
-import React, {useRef} from 'react'
+import React, {useRef, useContext} from 'react'
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -7,7 +7,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import Data from '../../public/Data';
+import Data from '../../../public/Data';
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
@@ -19,36 +19,24 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import { TextField } from '@mui/material';
-import Invoice from './Invoice';
+import Invoice from '../Invoice';
 import PrintIcon from '@mui/icons-material/Print';
 import { useReactToPrint } from 'react-to-print';
 import Checkbox from '@mui/material/Checkbox';
+import UserContext from '@context/userContext';
 
 
 const columns = [
     { id: 'Step', label: 'Step', align: 'center', minWidth: 50 },
     { id: 'quantity', label: 'Quantity', align: 'center', minWidth: 100, format: (value) => value+' kg',},
     { id: 'price', label: 'Price (per kg)', align: 'center', minWidth: 80, format: (value) => value+' Taka', },
+    { id: 'amount', label: 'Amount', align: 'center', minWidth: 120, format: (value) => value.toLocaleString('en-US')+' Taka',},
     {
       id: 'status',
       label: 'Status',
       minWidth: 120,
       align: 'center',
       format: (value) => value.toLocaleString('en-US'),
-    },
-    {
-        id: 'YourInterest',
-        label: 'Interested',
-        minWidth: 80,
-        align: 'center',
-        format: (value) => value.toLocaleString('en-US'),
-    },
-    {
-        id: 'interested',
-        label: 'Total Interested',
-        minWidth: 80,
-        align: 'center',
-        format: (value) => value.toLocaleString('en-US'),
     },
     {
         id: 'collection_date',
@@ -95,6 +83,7 @@ const columns = [
 
 
 const BuyingTable = ({product_id}) => {
+    const {user, setUser} = useContext(UserContext)
 
     const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
     let sellingStep = 0;
@@ -180,6 +169,41 @@ const BuyingTable = ({product_id}) => {
     }, []);
 
 
+    const [offerData, setOfferData] = React.useState({
+        price: '',
+        quantity: ''
+    })
+
+
+    const addOffers= async ()=>{
+        
+        const postData = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(offerData),
+            };
+        
+            const res = await fetch(
+            'http://localhost:3000/api/add/add_offers',
+            postData
+            )
+            const response = await res.json()
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
   return (
     <div>
         <Paper sx={{ width: '100%', overflow: 'hidden', margin: '40px 0', backgroundColor: "transparent" }}>
@@ -232,19 +256,18 @@ const BuyingTable = ({product_id}) => {
                                         );
                                     }
                                 }
-                                else if(column.id == 'YourInterest'){
-                                    return(
-                                        <TableCell key={column.id} align={column.align}>
-                                            <Checkbox color='success' onChange={(e)=>{
-                                                console.log('checked- ', e.target.checked)
-                                            }} />
-                                        </TableCell>
-                                    )
-                                }
                                 else if(column.id == 'SendOffer'){
                                     return(
                                         <TableCell key={column.id} align={column.align}>
-                                            <Button variant='outlined' onClick={handleClickOpenSendOffer} style={{fontSize: '12px'}}>Send</Button>
+                                            <Button variant='outlined' onClick={()=>{
+                                                setOfferData(ex=>({
+                                                    ...ex,
+                                                    offered_by: user.id,
+                                                    sales_id: row.id,
+                                                    project_id: row.project_id
+                                                }))
+                                                handleClickOpenSendOffer()
+                                            }} style={{fontSize: '12px'}}>Send</Button>
                                         </TableCell>
                                     )
                                 }
@@ -354,8 +377,15 @@ const BuyingTable = ({product_id}) => {
                     <TextField
                         style={{ width: "400px", margin: "5px" }}
                         type="text"
-                        label="Amount"
+                        label="Quantity"
                         variant="outlined"
+                        value={offerData.quantity}
+                        onChange={(e)=>{
+                            setOfferData(ex=>({
+                                ...ex,
+                                quantity: e.target.value,
+                            }))
+                        }}
                         />
                         <br />
                         <TextField
@@ -363,6 +393,13 @@ const BuyingTable = ({product_id}) => {
                         type="text"
                         label="Price (per kg)"
                         variant="outlined"
+                        value={offerData.price}
+                        onChange={(e)=>{
+                            setOfferData(ex=>({
+                                ...ex,
+                                price: e.target.value,
+                            }))
+                        }}
                         />
                         <br />
                         <br />
@@ -370,7 +407,11 @@ const BuyingTable = ({product_id}) => {
             </DialogContent>
             <DialogActions style={{paddingBottom: '20px', paddingRight: '20px'}}>
             <Button onClick={handleCloseSendOffer}>Cancel</Button>
-            <Button onClick={handleCloseSendOffer} autoFocus>
+            <Button onClick={()=>{
+                
+                handleCloseSendOffer()
+                addOffers()
+            }} autoFocus>
                 Send
             </Button>
             </DialogActions>

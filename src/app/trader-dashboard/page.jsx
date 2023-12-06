@@ -41,9 +41,9 @@ import UserContext from '@context/userContext';
 import { Suspense } from 'react';
 import Loading from './loading';
 import AgroProducts from '@components/AgroProducts';
-import StockedProducts from '@components/StockedProducts';
+import StockedProducts from '@components/trader/StockedProducts';
 import Transportation from '@components/Transportation';
-import BuyProducts from '@components/BuyProducts';
+import BuyProducts from '@components/trader/BuyProducts';
 import { Loader } from '@app/loading';
 
 
