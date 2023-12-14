@@ -163,18 +163,22 @@ export async function POST(req, { params }) {
             status: 200
         }
         try {
-            const sqlLQuery = "UPDATE farmer_sales SET status=? WHERE id=? AND project_id=?"
-            const values = ['Processing', data.sales_id, data.project_id]
 
             const sqlLQuery1 = "UPDATE offers SET status=? WHERE id=? AND offered_by=? AND sales_id=? AND project_id=?"
             const values1 = ['Accepted', data.offer_id, data.offered_by, data.sales_id, data.project_id]
-            await dbConnection.query(sqlLQuery, values);
             await dbConnection.query(sqlLQuery1, values1);
 
-            const sqlLQuery2 = "UPDATE farmer_sales SET total_offers=(SELECT COUNT(id) FROM offers WHERE sales_id=? AND project_id=?) WHERE id=? AND project_id=?";
-            const values2 = [data.sales_id, data.product_id, data.sales_id, data.product_id]
 
-            await dbConnection.query(sqlLQuery2, values2);
+            const sqlLQuery = "UPDATE farmer_sales SET status=? WHERE id=? AND project_id=?"
+            const values = ['Processing', data.sales_id, data.project_id]
+            await dbConnection.query(sqlLQuery, values);
+
+
+
+            // const sqlLQuery2 = "UPDATE farmer_sales SET total_offers=(SELECT COUNT(id) FROM offers WHERE sales_id=? AND project_id=? AND status='Pending') WHERE id=? AND project_id=?";
+            // const values2 = [data.sales_id, data.product_id, data.sales_id, data.product_id]
+
+            // await dbConnection.query(sqlLQuery2, values2);
 
         } catch (error) {
             res.message = 'Database error occured'
@@ -204,10 +208,43 @@ export async function POST(req, { params }) {
 
             await dbConnection.query(sqlLQuery1, values1);
 
-            const sqlLQuery2 = "UPDATE farmer_sales SET total_offers=(SELECT COUNT(id) FROM offers WHERE sales_id=? AND project_id=?) WHERE id=? AND project_id=?";
-            const values2 = [data.sales_id, data.product_id, data.sales_id, data.product_id]
+            // const sqlLQuery2 = "UPDATE farmer_sales SET total_offers=(SELECT COUNT(id) FROM offers WHERE sales_id=? AND project_id=?) WHERE id=? AND project_id=?";
+            // const values2 = [data.sales_id, data.product_id, data.sales_id, data.product_id]
 
-            await dbConnection.query(sqlLQuery2, values2);
+            // await dbConnection.query(sqlLQuery2, values2);
+
+        } catch (error) {
+            res.message = 'Database error occured'
+            res.status = 500
+            // new Error(error)
+            console.log(error)
+        }
+
+        return new Response(JSON.stringify(res));
+    }
+
+    else if (params.instruction == 'update_sales_offers_On_cancel_from_farmer') {
+
+        const data = await req.json()
+        console.log(data)
+        let res = {
+            message: 'Successfully updated the status',
+            status: 200
+        }
+        try {
+            const sqlLQuery = "UPDATE farmer_sales SET status=? WHERE id=? AND project_id=?"
+            const values = ['Pending', data.sales_id, data.product_id]
+            await dbConnection.query(sqlLQuery, values);
+
+            const sqlLQuery1 = "UPDATE offers SET status=? WHERE id=? AND sales_id=? AND project_id=?"
+            const values1 = ['Cancelled', data.offer_id, data.sales_id, data.product_id]
+
+            await dbConnection.query(sqlLQuery1, values1);
+
+            // const sqlLQuery2 = "UPDATE farmer_sales SET total_offers=(SELECT COUNT(id) FROM offers WHERE sales_id=? AND project_id=?) WHERE id=? AND project_id=?";
+            // const values2 = [data.sales_id, data.product_id, data.sales_id, data.product_id]
+
+            // await dbConnection.query(sqlLQuery2, values2);
 
         } catch (error) {
             res.message = 'Database error occured'
@@ -241,24 +278,25 @@ export async function POST(req, { params }) {
 
             console.log(order_info)
 
-            // const sqlLQuery2 = "DELETE FROM offers WHERE id=?"
-            // const values2 = [order_info.offer_id]
 
-            // await dbConnection.query(sqlLQuery2, values2);
+            const sqlLQuery7 = "SELECT * FROM offers WHERE id=?"
+            const values7 = [order_info.offer_id]
+            const offerInfo = await dbConnection.query(sqlLQuery7, values7);
 
-            const sqlLQuery3 = "UPDATE farmer_sales SET total_offers=(SELECT COUNT(id) FROM offers WHERE sales_id=? AND project_id=?) WHERE id=? AND project_id=?";
-            const values3 = [order_info.sales_id, order_info.product_id, order_info.sales_id, order_info.product_id]
-
-            await dbConnection.query(sqlLQuery3, values3);
-
-
-            const sqlLQuery4 = "UPDATE farmer_sales SET status=? WHERE id=? AND project_id=?"
-            const values4 = ['Sold Out', order_info.sales_id, order_info.product_id]
+            const sqlLQuery4 = "UPDATE farmer_sales SET status=?, quantity=?, price=?, amount=? WHERE id=? AND project_id=?"
+            const values4 = ['Sold Out', offerInfo[0][0].quantity, offerInfo[0][0].price, offerInfo[0][0].amount, order_info.sales_id, order_info.product_id]
             await dbConnection.query(sqlLQuery4, values4);
+
+
+            const sqlLQuery6 = "UPDATE offers SET status=? WHERE sales_id=?"
+            const values6 = ['Sold Out', order_info.sales_id]
+            await dbConnection.query(sqlLQuery6, values6);
 
             const sqlLQuery5 = "INSERT INTO transports (vehicle, pickup_location, delivery_location, distance, cost, order_id ) VALUES (?,?,?,?,?,?)"
             const values5 = [transportInfo.type, transportInfo.from, transportInfo.to, transportInfo.distance, transportInfo.cost, order_id]
             await dbConnection.query(sqlLQuery5, values5);
+
+
         } catch (error) {
             res.message = 'Database error occured'
             res.status = 500

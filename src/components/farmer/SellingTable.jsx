@@ -336,7 +336,7 @@ const SellingTable = (props) => {
 
 
     const getOffersList = async (row)=>{
-        if(row.status == 'Processing'){
+        if(row.status != 'Pending'){
             setCurrentSalesRow(true)
         }
         const postData = {
@@ -365,7 +365,6 @@ const SellingTable = (props) => {
 
 
     const salesAndOfferStatusUpdate = async()=>{
-        console.log(acceptedOfferInfo)
         const postData = {
             method: 'POST',
             headers: {
@@ -379,6 +378,8 @@ const SellingTable = (props) => {
             postData
         )
         const response = await res.json()
+        setSalesData(undefined)
+        fetchSales()
     }
 
 
@@ -490,7 +491,7 @@ const SellingTable = (props) => {
                                         <TableCell key={column.id} align={column.align}>
                                         
                                         <Badge badgeContent={row.total_offers} color="primary">
-                                            <Button variant='outlined' onClick={()=>{
+                                            <Button disabled={row.status == 'Pending' ? false : true}  variant='outlined' onClick={()=>{
                                                 handleClickOpenSalesOffer()
                                                 getOffersList(row)
                                             }} style={{fontSize: '12px'}}>Offers</Button>

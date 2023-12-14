@@ -39,25 +39,17 @@ const columns = [
       },
     { id: 'product_name', label: 'Product Name', align: 'center', minWidth: 80, format: (value) => value,},
     { id: 'farmer_name', label: 'Farmer', align: 'center', minWidth: 100, },
+    {
+        id: 'offer_status',
+        label: 'Status',
+        minWidth: 100,
+        align: 'center',
+    },
     { id: 'quantity', label: 'Quantity', align: 'center', minWidth: 100, format: (value) => value+' kg',},
     { id: 'price', label: 'Price (per kg)', align: 'center', minWidth: 80, format: (value) => value+' Taka', },
     { id: 'amount', label: 'Amount', align: 'center', minWidth: 120, format: (value) => value.toLocaleString('en-US')+' Taka',},
 
-    {
-      id: 'offer_status',
-      label: 'Status',
-      minWidth: 100,
-      align: 'center',
-    },
     
-    {
-        id: 'Actions',
-        label: 'Actions',
-        minWidth: 80,
-        align: 'center',
-      },
-     
-   
   ];
 
 
@@ -67,7 +59,7 @@ const columns = [
 
 
 
-const SendedOffersTable = (props) => {
+const AcceptedOffersTable = (props) => {
 
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(4);
@@ -91,11 +83,11 @@ const SendedOffersTable = (props) => {
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({user_id: props.info.user_id}),
+        body: JSON.stringify({project_id: props.info.project_id}),
         };
     
         const res = await fetch(
-        '/api/get/sended_offers_list',
+        '/api/get/accepted_offers_list',
         postData
         )
         const response = await res.json()
@@ -125,7 +117,7 @@ const SendedOffersTable = (props) => {
             };
             
         const res = await fetch(
-            '/api/update/update_sales_offers_On_cancel',
+            '/api/update/update_sales_offers_On_cancel_from_farmer',
             postData
         )
         const response = await res.json()
@@ -231,7 +223,7 @@ const SendedOffersTable = (props) => {
                                             </TableCell>
                                         );
                                     }
-                                    if(row[column.id] == 'Sold Out' || row[column.id] == 'Cancelled'){
+                                    if(row[column.id] == 'Sold Out'){
                                         return (
                                             <TableCell key={column.id} align={column.align}>
                                                 <Button variant="outlined" color='error' style={{fontSize:'12px'}}>
@@ -250,18 +242,6 @@ const SendedOffersTable = (props) => {
                                             </TableCell>
                                         );
                                     }
-                                }
-                                else if(column.id == 'Actions'){
-                                    return(
-                                        <TableCell key={column.id} align={column.align}>
-                                        
-                                        <Button disabled={row['offer_status'] == 'Accepted' ? false : true} color='primary' startIcon={<AutorenewIcon />} variant='contained' onClick={() =>{
-                                            proceedToBilling(row)
-                                        }}>
-                                            Proceed
-                                        </Button>
-                                    </TableCell>
-                                    )
                                 }
                                 else if(column.id == 'ViewOffers'){
                                     return(
@@ -332,7 +312,7 @@ const SendedOffersTable = (props) => {
         }}
         >
             <DialogTitle id="alert-dialog-title">
-            {"Are you sure to cancel this transaction ?"}
+            {"Are you sure to cancel this offer ?"}
             </DialogTitle>
             
             <DialogActions>
@@ -361,4 +341,4 @@ const SendedOffersTable = (props) => {
   )
 }
 
-export default SendedOffersTable
+export default AcceptedOffersTable

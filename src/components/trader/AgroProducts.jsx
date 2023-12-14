@@ -76,7 +76,7 @@ const AgroProducts = (props) => {
 
 
 
-      {/* <Stack direction='row' justifyContent='left' alignItems='center' gap={2} marginTop='15px'>
+      <Stack direction='row' justifyContent='left' alignItems='center' gap={2} marginTop='15px'>
         <Autocomplete
           disablePortal
           id="combo-box-demo"
@@ -103,7 +103,7 @@ const AgroProducts = (props) => {
         <Button variant="contained" style={{height: '50px'}} sx={{backgroundColor: "var(--yellow)", fontFamily:'Gothicb'}} startIcon={<PersonSearchIcon fontSize='large' />}>
           Search
         </Button>
-      </Stack> */}
+      </Stack>
 
 
 
@@ -131,9 +131,10 @@ const AgroProducts = (props) => {
                   />
                   <CardContent>
                     <Typography style={{fontFamily: 'Roboto-Bold', fontWeight: 700}} variant="h5" component="div">
-                      {product?.name}
+                      {product?.title}
                     </Typography>
                     <Typography variant="body2" letterSpacing={'.5px'} color="text.secondary">
+                      <b>Product: </b>{product?.name}<br/>
                       <b>Quantity: </b>{product?.quantity} kg <br/>
                       <b>Price: </b>{product?.price} taka (per kg) <br/>
                       <b>Location</b> {product?.location}<br/>

@@ -128,7 +128,7 @@ const confirmOrder = async ()=>{
         const response = await res.json()
         // console.log(response.data)
         if(response.status == 200)
-            router.push('/trader-dashboard')
+            router.push('/users/trader-dashboard')
 }
 
 

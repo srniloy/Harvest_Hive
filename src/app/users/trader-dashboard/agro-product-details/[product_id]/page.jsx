@@ -195,7 +195,7 @@ const ProjectDetails = ({params}) => {
                   </div>
                 </div>
           </Stack>
-          <Grid container spacing={2}>
+          {/* <Grid container spacing={2}>
 
               
 
@@ -215,7 +215,7 @@ const ProjectDetails = ({params}) => {
             <Grid xs={3}>
                 
             </Grid>
-          </Grid>
+          </Grid> */}
         </div>
         <div class="w-layout-hflex fpd-tab-link-container">
           <div className="fpd-tab-links" style={{display:'flex', alignItems:'center', justifyContent:'center'}}>

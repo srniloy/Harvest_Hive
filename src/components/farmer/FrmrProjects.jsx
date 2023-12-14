@@ -228,7 +228,7 @@ const FrmrProjects = (props) => {
                     projects?.map((project)=>{
                       console.log(project)
                       return (
-                        <Link onClick={()=> setIsLoad(ex=>({...ex, full: true}))} href={`project-details/${project?.id}`}>
+                        <Link onClick={()=> setIsLoad(ex=>({...ex, full: true}))} href={`/users/farmer-dashboard/project-details/${project?.id}`}>
                           <div className="f-project-card">
                             <div className="fp-card-cover-img-wrapper">
                               

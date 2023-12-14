@@ -77,9 +77,9 @@ export async function POST(req, { params }) {
             const values = [parseInt(data.price), parseInt(data.quantity), (parseInt(data.quantity) * parseInt(data.price)), data.offered_by, data.sales_id, data.project_id]
             await dbConnection.query(sqlLQuery, values);
 
-            const sqlLQuery1 = "UPDATE farmer_sales SET total_offers=(SELECT COUNT(id) FROM offers WHERE sales_id=? AND project_id=?) WHERE id=? AND project_id=?";
-            const values1 = [data.sales_id, data.project_id, data.sales_id, data.project_id]
-            await dbConnection.query(sqlLQuery1, values1);
+            // const sqlLQuery1 = "UPDATE farmer_sales SET total_offers=(SELECT COUNT(id) FROM offers WHERE sales_id=? AND project_id=? AND status='Pending') WHERE id=? AND project_id=?";
+            // const values1 = [data.sales_id, data.project_id, data.sales_id, data.project_id]
+            // await dbConnection.query(sqlLQuery1, values1);
 
         } catch (error) {
             res.message = 'Database error occured'

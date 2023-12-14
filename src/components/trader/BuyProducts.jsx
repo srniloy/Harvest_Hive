@@ -32,7 +32,7 @@ const BuyProducts = (props) => {
                   BuyProjectTabButtonAction(e)
                   setTabType(<SendedOffersTable info={props.info}/>)
                 }}
-                >Sended Offers</a>
+                >Sent Offers</a>
                 </div>
             </div>
         </div>

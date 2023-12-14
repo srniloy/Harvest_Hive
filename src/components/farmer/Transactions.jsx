@@ -25,7 +25,7 @@ const columns = [
   {
     id: 'date',
     label: 'Date',
-    minWidth: 100,
+    minWidth: 120,
     align: 'center',
     format: (value) => value.toLocaleString('en-US'),
   },
@@ -62,7 +62,7 @@ const Transactions = (props) => {
 
   const [isLoad, setIsLoad] = React.useState(true);
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(4);
+  const [rowsPerPage, setRowsPerPage] = React.useState(7);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -139,7 +139,7 @@ const Transactions = (props) => {
                             if(column.id == 'date'){
                               return (
                                 <TableCell key={column.id} align={column.align}>
-                                  {row[column.id].split('T')[0]}
+                                  {value.slice(3, value.length)}
                                 </TableCell>
                               );
                             }
@@ -174,7 +174,7 @@ const Transactions = (props) => {
               </Table>
             </TableContainer>
             <TablePagination
-              rowsPerPageOptions={[4, 8, 16]}
+              rowsPerPageOptions={[7, 10, 16]}
               component="div"
               count={transactionLists?.length}
               rowsPerPage={rowsPerPage}

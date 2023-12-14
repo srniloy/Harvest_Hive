@@ -1,5 +1,5 @@
 'use client'
-import React from 'react';
+import React, { useContext } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button, Stack, Tooltip } from '@mui/material';
 
@@ -36,8 +36,11 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
 import { Loader } from '@app/loading';
+import AcceptedOffersTable from '@components/farmer/AcceptedOffersTable';
+import UserContext from '@context/userContext';
 
 const ProjectDetails = ({params}) => {
+  const {user, setUser} = useContext(UserContext)
   const router = useRouter()
   const [total, setTotal] = React.useState({total_expense: '0', total_sales: '0', total_revenue: '0', reload: false, render: false})
   const [project, setProject] = React.useState({})
@@ -93,6 +96,14 @@ const ProjectDetails = ({params}) => {
       setTabContainer([
         <Suspense fallback={<Loading/>}>
           <SellingTable project_id={params.project_id} total = {{total, setTotal}}/>
+        </Suspense>
+      ]);
+      setTabState("Selling");
+    }
+    else if(e.target.innerHTML == "Accepted Offers"){
+      setTabContainer([
+        <Suspense fallback={<Loading/>}>
+          <AcceptedOffersTable info= {{project_id: params.project_id}}/>
         </Suspense>
       ]);
       setTabState("Selling");
@@ -489,6 +500,9 @@ const updateProjectInfo = async ()=>{
           </div>
           <div class="fpd-tab-link-wrapper">
             <a class="fpd-tab-link" onClick={(e) => fpdTabClickAction(e)}>Selling</a>
+          </div>
+          <div class="fpd-tab-link-wrapper">
+            <a class="fpd-tab-link" onClick={(e) => fpdTabClickAction(e)}>Accepted Offers</a>
           </div>
         </div>
         <div className="fpd-table-action-buttons" style={{display:'flex', alignItems: 'center', justifyContent: 'center', height:'30px', marginRight: '10px'}}>

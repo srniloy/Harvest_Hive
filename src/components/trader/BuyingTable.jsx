@@ -240,6 +240,15 @@ const BuyingTable = ({product_id}) => {
                                     if(row[column.id] == 'Pending'){
                                         return (
                                             <TableCell key={column.id} align={column.align}>
+                                                <Button variant="outlined" color='primary' style={{fontSize:'12px'}}>
+                                                    {row[column.id]}
+                                                </Button>
+                                            </TableCell>
+                                        );
+                                    }
+                                    if(row[column.id] == 'Processing'){
+                                        return (
+                                            <TableCell key={column.id} align={column.align}>
                                                 <Button variant="outlined" color='warning' style={{fontSize:'12px'}}>
                                                     {row[column.id]}
                                                 </Button>
@@ -259,7 +268,7 @@ const BuyingTable = ({product_id}) => {
                                 else if(column.id == 'SendOffer'){
                                     return(
                                         <TableCell key={column.id} align={column.align}>
-                                            <Button variant='outlined' onClick={()=>{
+                                            <Button disabled={!(row['status'] == 'Pending')} variant='outlined' onClick={()=>{
                                                 setOfferData(ex=>({
                                                     ...ex,
                                                     offered_by: user.id,
