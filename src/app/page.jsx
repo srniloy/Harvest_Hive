@@ -19,16 +19,16 @@ const [isLoad, setIsLoad] = useState(false);
                     Harvest Hive
                 </b>
                 <div className="menu">
-                    <a className="active-home">
+                    <a href='#HeroSection' className="active-home">
                         <b className="home">Home</b>
                         <div className="active-home-child"></div>
                     </a>
-                    <a className="home">About Us</a>
-                    <a className="home">Our Services</a>
-                    <a className="home">Outcomes</a>
-                    <a className="home">Testimonials</a>
-                    <a className="home">News & Article</a>
-                    <a className="home">Contact Us</a>
+                    {/* <a href='#HeroSection' className="home">About Us</a> */}
+                    <a href='#ServiceSection' className="home">Our Services</a>
+                    <a href='#OutcomeSection' className="home">Outcomes</a>
+                    <a href='#TestimonialSection' className="home">Testimonials</a>
+                    <a href='#ArticleSection' className="home">News & Article</a>
+                    <a href='#ContactSection' className="home">Contact Us</a>
                 </div>
                 <div className="signin-space">
                     <Link href={'/auth/signin'}> 
@@ -39,7 +39,7 @@ const [isLoad, setIsLoad] = useState(false);
 
             {/* <!-- ================================================= Cover/Heading Section ====================================================================== --> */}
 
-            <section className="hero-section">
+            <section className="hero-section" id='HeroSection'>
 
                 <div className="text-button">
                     <div className="underline-01-parent">
@@ -71,14 +71,16 @@ const [isLoad, setIsLoad] = useState(false);
                             </div>
                         </div>
                         <div className="component-11">
-                            <div className="discover-more">Discover More</div>
+                            <a href="#ServiceSection">
+                                <div className="discover-more">Discover More</div>
+                            </a>
                         </div>
                     </div>
                 </div>
             </section>
             {/* <!-- ================================================= Service Section ====================================================================== --> */}
 
-            <section className="services">
+            <section className="services" id='ServiceSection'>
                 
 
                 <div className="our-introduction-farmer">
@@ -93,9 +95,9 @@ const [isLoad, setIsLoad] = useState(false);
 
                             <div className="successfully-project-completed-item"></div>
                             <div className="group">
-                                <div className="project-number">86,700</div>
+                                <div className="project-number" style={{lineHeight: '40px'}}>4</div>
                                 <div className="successfully-project-completed1">
-                                    Successfully Project Completed
+                                    Successfully Registered Farmers
                                 </div>
                             </div>
                         </div>
@@ -184,18 +186,14 @@ const [isLoad, setIsLoad] = useState(false);
                     <div className="text4">
                         <div className="title3">
                             <div className="home">OUR SERVICES</div>
-                            <b className="customer">Farmer</b>
+                            <b className="customer">Trader/Transporters</b>
                         </div>
                         <div className="at-the-end-the-food-reaches-o-parent">
                             <div className="at-the-end">
-                                Farmers' The Piler of Agriculture Market.
+                                We Help in Sourcing, Scheduling And Delivering Your Goods.
                             </div>
                             <p className="dissuade-ecstatic-and8">
-                                As farmer grapple with dwindling profits,
-                                they’re stepping
-                                away from their field, cast shadow over our
-                                nation’s destiny
-                                and leaving us on the brink of uncertainty.
+                            Unscrupulous businessmen exploit lax oversight, driving up prices on essential foods and household items. Thus forcing customers to food product at increased price while making substantial profits .
                             </p>
                         </div>
                         <div className="title">
@@ -206,7 +204,7 @@ const [isLoad, setIsLoad] = useState(false);
                                     src='/images/materialsymbolscheckcircle.png'/>
 
                                 <div className="div">
-                                    Provide marginal revenue and cost of harvest
+                                Provide real time market logistics
                                 </div>
                             </div>
                             <div className="material-symbolscheck-circle-parent">
@@ -216,8 +214,7 @@ const [isLoad, setIsLoad] = useState(false);
                                     src='/images/materialsymbolscheckcircle.png'/>
 
                                 <div className="div">
-                                    Keeping track of agriculture optimize
-                                    logistics
+                                Establish a secure connection with farmers and shop keepers
                                 </div>
                             </div>
                             <div className="material-symbolscheck-circle-parent">
@@ -226,8 +223,7 @@ const [isLoad, setIsLoad] = useState(false);
                                     
                                     src='/images/materialsymbolscheckcircle.png'/>
 
-                                <div className="div">Help create project to optimize
-                                    harvest</div>
+                                <div className="div">Can observe and interact with all farmers projects</div>
                             </div>
                             <div className="material-symbolscheck-circle-parent">
                                 <img
@@ -236,7 +232,7 @@ const [isLoad, setIsLoad] = useState(false);
                                     src='/images/materialsymbolscheckcircle.png'/>
 
                                 <div className="div">
-                                    Tracking and providing potential traders
+                                Show detail personal revenues and costs
                                 </div>
                             </div>
                             <div className="material-symbolscheck-circle-parent">
@@ -245,16 +241,7 @@ const [isLoad, setIsLoad] = useState(false);
                                     
                                     src='/images/materialsymbolscheckcircle.png'/>
 
-                                <div className="div">Providing full transparency</div>
-                            </div>
-                            <div className="material-symbolscheck-circle-parent">
-                                <img
-                                    className="rifacebook-fill-icon"
-                                    
-                                    src='/images/materialsymbolscheckcircle.png'/>
-
-                                <div className="div">Keeping secure statement of
-                                    transaction</div>
+                                <div className="div">Optimize profit and plan loadouts</div>
                             </div>
                         </div>
                     </div>
@@ -270,9 +257,9 @@ const [isLoad, setIsLoad] = useState(false);
 
                             <div className="successfully-project-completed-item"></div>
                             <div className="group">
-                                <div className="project-number">86,700</div>
+                                <div className="project-number">4</div>
                                 <div className="successfully-project-completed1">
-                                    Successfully Project Completed
+                                    Successfully Registered Traders
                                 </div>
                             </div>
                         </div>
@@ -292,9 +279,9 @@ const [isLoad, setIsLoad] = useState(false);
 
                             <div className="successfully-project-completed-item"></div>
                             <div className="group">
-                                <div className="project-number">86,700</div>
+                                <div className="project-number">4</div>
                                 <div className="successfully-project-completed1">
-                                    Successfully Project Completed
+                                    Successfully Registered Wholesalers
                                 </div>
                             </div>
                         </div>
@@ -303,18 +290,14 @@ const [isLoad, setIsLoad] = useState(false);
                     <div className="text4">
                         <div className="title3">
                             <div className="home">OUR SERVICES</div>
-                            <b className="customer">Farmer</b>
+                            <b className="customer">WholeSaler/Retailer</b>
                         </div>
                         <div className="at-the-end-the-food-reaches-o-parent">
                             <div className="at-the-end">
-                                Farmers' The Piler of Agriculture Market.
+                            We’re Distributor
                             </div>
                             <p className="dissuade-ecstatic-and8">
-                                As farmer grapple with dwindling profits,
-                                they’re stepping
-                                away from their field, cast shadow over our
-                                nation’s destiny
-                                and leaving us on the brink of uncertainty.
+                            The food prices remain unstable due to constant exploitation occurring in the complex food chain.
                             </p>
                         </div>
                         <div className="title">
@@ -325,7 +308,7 @@ const [isLoad, setIsLoad] = useState(false);
                                     src='/images/materialsymbolscheckcircle.png'/>
 
                                 <div className="div">
-                                    Provide marginal revenue and cost of harvest
+                                Provide consistent data of food market value
                                 </div>
                             </div>
                             <div className="material-symbolscheck-circle-parent">
@@ -335,8 +318,7 @@ const [isLoad, setIsLoad] = useState(false);
                                     src='/images/materialsymbolscheckcircle.png'/>
 
                                 <div className="div">
-                                    Keeping track of agriculture optimize
-                                    logistics
+                                Predict future logistics of food price
                                 </div>
                             </div>
                             <div className="material-symbolscheck-circle-parent">
@@ -345,8 +327,7 @@ const [isLoad, setIsLoad] = useState(false);
                                     
                                     src='/images/materialsymbolscheckcircle.png'/>
 
-                                <div className="div">Help create project to optimize
-                                    harvest</div>
+                                <div className="div">Provide different options for payment</div>
                             </div>
                             <div className="material-symbolscheck-circle-parent">
                                 <img
@@ -355,25 +336,8 @@ const [isLoad, setIsLoad] = useState(false);
                                     src='/images/materialsymbolscheckcircle.png'/>
 
                                 <div className="div">
-                                    Tracking and providing potential traders
+                                Smart filtering system to optimize time and profit 
                                 </div>
-                            </div>
-                            <div className="material-symbolscheck-circle-parent">
-                                <img
-                                    className="rifacebook-fill-icon"
-                                    
-                                    src='/images/materialsymbolscheckcircle.png'/>
-
-                                <div className="div">Providing full transparency</div>
-                            </div>
-                            <div className="material-symbolscheck-circle-parent">
-                                <img
-                                    className="rifacebook-fill-icon"
-                                    
-                                    src='/images/materialsymbolscheckcircle.png'/>
-
-                                <div className="div">Keeping secure statement of
-                                    transaction</div>
                             </div>
                         </div>
                     </div>
@@ -385,7 +349,7 @@ const [isLoad, setIsLoad] = useState(false);
 
             {/* <!-- ================================================= Outcomes Section ====================================================================== --> */}
 
-            <section className="modern-agriculture">
+            <section className="modern-agriculture" id='OutcomeSection'>
 
                 <div className="left-side">
                     <img
@@ -433,10 +397,7 @@ const [isLoad, setIsLoad] = useState(false);
                                     <div className="economical-growth">Complete
                                         Transparency</div>
                                     <p className="dissuade-ecstatic-and5">
-                                        With our service we will be able to protect
-                                        the
-                                        economy from
-                                        being influenced by price hikes.
+                                    Complete transparency in agricultural supply chains fosters trust, ensures fair practices, reduces waste, and enhancing sustainability.
                                     </p>
                                 </div>
                             </div>
@@ -450,10 +411,7 @@ const [isLoad, setIsLoad] = useState(false);
                                     <div className="economical-growth">Improve Quality
                                         Control</div>
                                     <p className="dissuade-ecstatic-and5">
-                                        With our service we will be able to protect
-                                        the
-                                        economy from
-                                        being influenced by price hikes.
+                                    Improved quality control ensures premium produce, bolstering consumer satisfaction and profitability.
                                     </p>
                                 </div>
                             </div>
@@ -468,9 +426,7 @@ const [isLoad, setIsLoad] = useState(false);
                                     <div className="economical-growth">Optimized Supply
                                         Chain</div>
                                     <p className="dissuade-ecstatic-and2">
-                                        Through efficient loadout plans and project
-                                        management we are
-                                        able to provide fresh food in time.
+                                    Optimized supply chain enhances agricultural efficiency and boost overall productivity.
                                     </p>
                                 </div>
                             </div>
@@ -480,9 +436,7 @@ const [isLoad, setIsLoad] = useState(false);
                                 <div className="title-description1">
                                     <div className="economical-growth">Reduce Wastage</div>
                                     <p className="dissuade-ecstatic-and2">
-                                        Through efficient loadout plans and project
-                                        management we are
-                                        able to provide fresh food in time.
+                                    Streamlining agricultural supply chains cuts waste, boosts efficiency, ensuring sustainable practices for a greener future.
                                     </p>
                                 </div>
                             </div>
@@ -493,9 +447,7 @@ const [isLoad, setIsLoad] = useState(false);
                                 <div className="title-description1">
                                     <div className="economical-growth">Fair Price</div>
                                     <p className="dissuade-ecstatic-and2">
-                                        Through efficient loadout plans and project
-                                        management we are
-                                        able to provide fresh food in time.
+                                    Lowering fair prices boosts farmers' income, enhances food accessibility, and ensures a sustainable agricultural supply chain
                                     </p>
                                 </div>
                             </div>
@@ -515,7 +467,7 @@ const [isLoad, setIsLoad] = useState(false);
 
             
         {/* <!-- =========================================== Agculture metters======================================================================================================== --> */}
-        <section className="agriculture-matters-video-sec">
+        <section className="agriculture-matters-video-sec" >
 
             <img src='/images/image@2x.png' className='agriculture-matters-video-sec-img'></img>
             <div className="text2 agri-heading">
@@ -525,37 +477,32 @@ const [isLoad, setIsLoad] = useState(false);
               </b>
             </div>
 
-            <div className="agro-play-icon">
-                <img className="play-btn-2"  src='/images/play-btn-2.png'/>
-                <div className="watch-the-video">Watch the video</div>
+            <div className="agro-play-icon" style={{width: '400px'}}>
                </div>
           </section>
 
           {/* <!-- ================================================= Testimonial Section ====================================================================== --> */}
 
-        <section className="testimonials1">
+        <section className="testimonials1" id='TestimonialSection'>
             <div className="title2">
               <div className="contact-now">Our Testimonials</div>
               <b className="get-in-touch">WHAT THEY’RE TAKING ABOUT</b>
             </div>
             <div className="message">
               <div className="client-review">
-                <img className="picture-icon"  src='/images/picture.png'/>
+                <div style={{position: 'relative', width: '200px', height: '200px', borderRadius: '50%', overflow: 'hidden'}}>
+                    <img style={{height: '100%', width: '100%', objectFit: 'cover'}} src='/images/trader.jpg'/>
+                </div>
   
                 <div className="message1">
 
                     <img className="stars-icon"  src='/images/stars.png'/>
 
                   <p className="lorem-ipsum-dolor">
-                    “Lorem ipsum dolor sit amet consectetur. Tortor tempus cursus
-                    leo dictumst elementum. Sagittis elit turpis dignissim turpis
-                    tristique venenatis. Tempor id commodo odio nunc id volutpat
-                    libero. Ut hendrerit malesuada netus sapien dictum sapien
-                    nibh. Cras laoreet risus mus mi commodo volutpat quis neque.
-                    Scelerisque at in in id donec ornare velit.
+                    “The agricultural supply chain impresses with its efficiency, linking farmers to markets seamlessly. Timely distribution and fair pricing benefit both producers and consumers. This well-organized system ensures a steady flow of high-quality produce, fostering economic growth and food security. An essential backbone for sustainable agriculture.
                   </p>
                   <div className="heading-4-darun-due-parent">
-                    <div className="div">Tyrese Gibson</div>
+                    <div className="div">Tanzim Karim</div>
                     <div className="heading-6">Customer</div>
                   </div>
                 </div>
@@ -571,7 +518,7 @@ const [isLoad, setIsLoad] = useState(false);
 
           {/* <!-- ================================================= News article Section ====================================================================== --> */}
 
-        <section className="atricles">
+        <section className="atricles" id='ArticleSection'>
             <div className="back-style"></div>
             <div className="article-heading">
                 <h6>FROM THE BLOG</h6>
@@ -579,87 +526,63 @@ const [isLoad, setIsLoad] = useState(false);
             </div>
             <div className="article-wrapper">
 
+                <a target='_blank' href="https://www.thedailystar.net/business/economy/news/potatoes-eggs-onions-still-not-being-sold-govt-fixed-prices-3423981">
                 <div className="blog-item">
                     <div className="img-part">
-                        <img src='/images/image-26@2x.png'/>
-                        <div className="date">3 Sep, 2023</div>
+                        <img style={{height: '100%', width: '100%', objectFit: 'cover'}} src='/images/article1.png' alt=''/>
+                        <div className="date">Sep 21, 2023</div>
                     </div>
 
                     <div className="texts-part">
-                        <div className="row1">
-                            <div className="author">
-                                <img className="user-icon"  src='/images/user.png'/>
-                                <p>by Kevin Martin</p>
-                            </div>
-                            <div className="comment">
-                                <img className="user-icon"  src='/images/messagecircle.png'/>
-                                <p>2 Comments</p>
-                            </div>
-                        </div>
                         <div className="row2">
                             <h5>
-                                Taking seamless key indicators offline to
+                            Potatoes, eggs, onions still not being sold at govt-fixed prices
                             </h5>
                         </div>
                     </div>
                 </div>
+                </a>
 
+                <a target='_blank' href="https://www.thedailystar.net/health/food/price-essentials/news/food-price-hike-ramadan-slap-down-syndicates-3002301">
                 <div className="blog-item">
                     <div className="img-part">
-                        <img src='/images/image-261@2x.png'/>
-                        <div className="date">3 Sep, 2023</div>
+                        <img style={{height: '100%', width: '100%', objectFit: 'cover'}} src='/images/article2.jpg' alt=''/>
+                        <div className="date">Apr 11, 2022</div>
                     </div>
 
                     <div className="texts-part">
-                        <div className="row1">
-                            <div className="author">
-                                <img className="user-icon"  src='/images/user.png'/>
-                                <p>by Kevin Martin</p>
-                            </div>
-                            <div className="comment">
-                                <img className="user-icon"  src='/images/messagecircle.png'/>
-                                <p>2 Comments</p>
-                            </div>
-                        </div>
                         <div className="row2">
                             <h5>
-                                Taking seamless key indicators offline to
+                            Food price hike in ramadan: Slap down on syndicates
                             </h5>
                         </div>
                     </div>
                 </div>
+                </a>
 
+                <a target='_blank' href="https://www.thedailystar.net/business/news/reducing-loss-and-waste-fruit-and-vegetable-supply-chains-3286611">
                 <div className="blog-item">
                     <div className="img-part">
-                        <img src='/images/image-262@2x.png'/>
-                        <div className="date">3 Sep, 2023</div>
+                        <img style={{height: '100%', width: '100%', objectFit: 'cover'}} src='/images/article3.png' alt=''/>
+                        <div className="date">Apr 2, 2023</div>
                     </div>
 
                     <div className="texts-part">
-                        <div className="row1">
-                            <div className="author">
-                                <img className="user-icon"  src='/images/user.png'/>
-                                <p>by Kevin Martin</p>
-                            </div>
-                            <div className="comment">
-                                <img className="user-icon"  src='/images/messagecircle.png'/>
-                                <p>2 Comments</p>
-                            </div>
-                        </div>
                         <div className="row2">
                             <h5>
-                                Taking seamless key indicators offline to
+                            Reducing loss and waste in fruit and vegetable supply chains
                             </h5>
                         </div>
                     </div>
                 </div>
+                </a>
 
             </div>
         </section>
         
         {/* <!-- ================================================= Contact us Section ====================================================================== --> */}
 
-        <section className="contact-us1">
+         {/* <section className="contact-us1">
             
             <div className="text1">
               <div className="title-description">
@@ -712,7 +635,7 @@ const [isLoad, setIsLoad] = useState(false);
                   <div className="discover-more">Send Message</div>
                 </div>
               </form>
-        </section>
+        </section>  */}
 
 
         {/* <!-- ================================================= We are leader Section ====================================================================== --> */}
@@ -728,27 +651,23 @@ const [isLoad, setIsLoad] = useState(false);
                     We optimise and increase the perfection of Agriculture Market
                 </div>
             </div>
-            <div className="button1">
-                <div className="discover-more">Discover More</div>
-            </div>
         </div>
 
 
         {/* <!-- ================================================= Footer ====================================================================== --> */}
 
-        <section className="footer">
+        <section className="footer" id='ContactSection'>
             <div className="row1">
 
                 <div className="logo-description-social-ico">
                     <div className="logo-description">
                     <div className="logo-description-inner">
                         <div className="logo-description-inner">
-                            <b className="outcomes-of-our">ASCMS</b>
+                            <b className="outcomes-of-our">Harvest Hive</b>
                         </div>
                     </div>
                     <div className="dissuade-ecstatic-and">
-                        Lorem ipsum dolor sit amet, adipiscing elit. In hac habitasse
-                        platea dictumst. Duis porta,quam ut finibus ultrices.
+                    Bringing trust across complex food chain. We predict, monitor and maintain fair price.
                     </div>
                     </div>
                     <div className="dividor1"></div>
@@ -777,29 +696,38 @@ const [isLoad, setIsLoad] = useState(false);
                 <div className="useful-links">
                     <div className="economical-growth">Useful Links</div>
                     <div className="links">
-                      <a className="nav-link">New Projects</a>
-                      <a className="nav-link">Our Services</a>
-                      <a className="nav-link">Testimonials</a>
-                      <a className="nav-link">About Us</a>
-                      <a className="nav-link">Contact us</a>
+                      <a href='#HeroSection' className="nav-link">Home</a>
+                      <a href='#ServiceSection' className="nav-link">Our Services</a>
+                      <a href='#TestimonialSection' className="nav-link">Testimonials</a>
+                      <a href='#ArticleSection' className="nav-link">News & Article</a>
+                      <a href='#OutcomeSection' className="nav-link">Outcomes</a>
                     </div>
                 </div>
                 <div className="newsletter">
                     <div className="text">
-                      <div className="economical-growth">Newsletter</div>
-                      <div className="subscribe-to-our">
-                        Subscribe to our weekly Newsletter and receive updates via
-                        email.
-                      </div>
+                      <div className="economical-growth">Contact Us</div>
                     </div>
-                    <div className="input-field">
-                      <div className="input-field-child"></div>
-                      <div className="enter-yor-mail">Enter yor mail here...</div>
-                      <div className="button">
-                        <div className="button-child"></div>
-                        <div className="go">Go</div>
-                      </div>
-                    </div>
+                    <div className="contacts">
+                <div className="phone-parent">
+                  <div className="contact-now">Phone</div>
+                  <div className="parent">
+                    <div className="div">+880123456789</div>
+                    <div className="div">+880987654321</div>
+                  </div>
+                </div>
+                <div className="phone-parent">
+                  <div className="contact-now">Email</div>
+                  <div className="needhelpcompanycom-wrapper">
+                    <a className="div">needhelp@company.com</a>
+                  </div>
+                </div>
+                <div className="phone-parent">
+                  <div className="contact-now">Address</div>
+                  <div className="needhelpcompanycom-wrapper">
+                    <div className="div">Road No. 8, Niketan, Dhaka, Bangladesh</div>
+                  </div>
+                </div>
+              </div>
                   </div>
             </div>
 
@@ -807,7 +735,7 @@ const [isLoad, setIsLoad] = useState(false);
 
             <div className="copyright-policy-terms">
               <div className="copyright">
-                Copyright ©ASCMS. All Right Reserved.
+                Copyright ©HarvestHive. All Right Reserved.
               </div>
             </div>
             

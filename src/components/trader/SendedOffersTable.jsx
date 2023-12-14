@@ -26,11 +26,18 @@ import { useReactToPrint } from 'react-to-print';
 import { SubLoader } from '@app/loading';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
 import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
+import { useRouter } from 'next/navigation';
 
 
 
 const columns = [
-    { id: 'product_name', label: 'Product Name', align: 'center', minWidth: 100, format: (value) => value,},
+    {
+        id: 'cancel',
+        label: 'Cancel',
+        minWidth: 30,
+        align: 'left',
+      },
+    { id: 'product_name', label: 'Product Name', align: 'center', minWidth: 80, format: (value) => value,},
     { id: 'farmer_name', label: 'Farmer', align: 'center', minWidth: 100, },
     { id: 'quantity', label: 'Quantity', align: 'center', minWidth: 100, format: (value) => value+' kg',},
     { id: 'price', label: 'Price (per kg)', align: 'center', minWidth: 80, format: (value) => value+' Taka', },
@@ -39,7 +46,7 @@ const columns = [
     {
       id: 'offer_status',
       label: 'Status',
-      minWidth: 120,
+      minWidth: 100,
       align: 'center',
     },
     
@@ -64,6 +71,7 @@ const SendedOffersTable = (props) => {
 
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(4);
+    const router = useRouter()
   
     const handleChangePage = (event, newPage) => {
       setPage(newPage);
@@ -87,7 +95,7 @@ const SendedOffersTable = (props) => {
         };
     
         const res = await fetch(
-        'http://localhost:3000/api/get/sended_offers_list',
+        '/api/get/sended_offers_list',
         postData
         )
         const response = await res.json()
@@ -101,9 +109,54 @@ const SendedOffersTable = (props) => {
     }, []);
 
 
+    const [cancelOfferInfo, setCancelOfferInfo] = React.useState()
+    const [openCancelDialog, setOpenCancelDialog] = React.useState(false)
+
+
+    const cancelOffer = async()=>{
+        // console.log(cancelOfferInfo)
+        setSendedOffersList([])
+        const postData = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(cancelOfferInfo),
+            };
+            
+        const res = await fetch(
+            '/api/update/update_sales_offers_On_cancel',
+            postData
+        )
+        const response = await res.json()
+        fetchOffers()
+    }
 
 
 
+
+    const proceedToBilling = async (row) =>{
+        const postData = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                row: row,
+                current_user: props.info.user_id
+            }),
+            };
+            
+        const res = await fetch(
+            '/api/add/add_orders',
+            postData
+        )
+        const response = await res.json()
+        if(response.status == 200){
+            router.push(`/trader-dashboard/billing/${response?.order_id}`)
+        }
+        console.log(response)
+    }
 
 
 
@@ -137,7 +190,22 @@ const SendedOffersTable = (props) => {
                         return (
                         <TableRow hover role="checkbox" tabIndex={-1} key={row.id}>
                             {columns.map((column) => {
-                                if(column.id == 'Step'){
+                                if(column.id == 'cancel'){
+                                    return(
+                                        <TableCell key={column.id} align={column.align}>
+                                        
+                                        <Tooltip title='Cancel'>
+                                            <IconButton aria-label="cancel" onClick={()=>{
+                                                setCancelOfferInfo(row)
+                                                setOpenCancelDialog(true)
+                                            }} color='error' style={{marginRight: '20px'}}>
+                                                <CancelOutlinedIcon />
+                                            </IconButton>
+                                        </Tooltip>
+                                    </TableCell>
+                                    )
+                                }
+                                else if(column.id == 'Step'){
                                     return (
                                         <TableCell key={column.id} align={column.align}>
                                             {++sellingStep}
@@ -177,12 +245,9 @@ const SendedOffersTable = (props) => {
                                     return(
                                         <TableCell key={column.id} align={column.align}>
                                         
-                                        <Tooltip title='Cancel'>
-                                            <IconButton aria-label="cancel" onClick={()=>deleteSales(row)} color='error' style={{marginRight: '20px'}}>
-                                                <CancelOutlinedIcon />
-                                            </IconButton>
-                                        </Tooltip>
-                                        <Button color='primary' startIcon={<AutorenewIcon />} variant='contained' onClick={() => handleClickOpen(row)}>
+                                        <Button color='primary' startIcon={<AutorenewIcon />} variant='contained' onClick={() =>{
+                                            proceedToBilling(row)
+                                        }}>
                                             Proceed
                                         </Button>
                                     </TableCell>
@@ -236,6 +301,52 @@ const SendedOffersTable = (props) => {
                 onRowsPerPageChange={handleChangeRowsPerPage}
             />
         </Paper>
+
+
+
+
+
+
+
+
+
+        <Dialog
+        open={openCancelDialog}
+        onClose={()=>setOpenCancelDialog(false)}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+        sx={{
+            '& .css-1qxadfk-MuiPaper-root-MuiDialog-paper':{
+                maxWidth: '1200px !important',
+            }
+        }}
+        >
+            <DialogTitle id="alert-dialog-title">
+            {"Are you sure to cancel this transaction ?"}
+            </DialogTitle>
+            
+            <DialogActions>
+            <Button onClick={()=>setOpenCancelDialog(false)}>no</Button>
+            <Button onClick={()=>{
+                setOpenCancelDialog(false)
+                cancelOffer()
+            }} autoFocus>
+                Yes
+            </Button>
+            </DialogActions>
+        </Dialog>
+
+
+
+
+
+
+
+
+
+
+
+
     </div>
   )
 }

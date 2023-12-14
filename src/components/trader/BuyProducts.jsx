@@ -1,5 +1,5 @@
 import React from 'react'
-import AgroProducts from '../AgroProducts'
+import AgroProducts from './AgroProducts'
 import SendedOffersTable from './SendedOffersTable'
 
 const BuyProducts = (props) => {

@@ -167,7 +167,7 @@ const Signin = () => {
       };
   
       const res = await fetch(
-        'http://localhost:3000/api/auth/signin',
+        '/api/auth/signin',
         postData
       )
       const response = await res.json()
@@ -186,7 +186,7 @@ const Signin = () => {
       SnackbarOpenHandleClick()
   
       if(response.status == 200){
-        router.push(`/${userUrl[response.user_data.user_type]}`)
+        router.push(`/users/${userUrl[response.user_data.user_type]}`)
       }
 
     }

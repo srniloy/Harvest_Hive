@@ -9,7 +9,7 @@ import Typography from '@mui/material/Typography';
 import { Button, CardActionArea, CardActions } from '@mui/material';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import Loading from '@app/trader-dashboard/loading';
+import Loader from '@app/loading';
 import PersonSearchIcon from '@mui/icons-material/PersonSearch';
 import TextField from '@mui/material/TextField';
 import { height } from '@mui/system';
@@ -30,7 +30,7 @@ const productsImg = [
 
 
 const AgroProducts = (props) => {
-  const [loaderOpen, setLoaderOpen] = React.useState(false)
+  const [loaderOpen, setLoaderOpen] = React.useState(true)
   const [isSubLoad, setIsSubLoad] = React.useState(true)
 
   const router = useRouter()
@@ -53,7 +53,7 @@ const AgroProducts = (props) => {
       };
   
       const res = await fetch(
-        'http://localhost:3000/api/get/get_products',
+        '/api/get/get_products',
         postData
       )
       const response = await res.json()
@@ -73,11 +73,10 @@ const AgroProducts = (props) => {
 
   return (
     <>
-      <Loading open={loaderOpen} />
 
 
 
-      <Stack direction='row' justifyContent='left' alignItems='center' gap={2} marginTop='15px'>
+      {/* <Stack direction='row' justifyContent='left' alignItems='center' gap={2} marginTop='15px'>
         <Autocomplete
           disablePortal
           id="combo-box-demo"
@@ -104,7 +103,7 @@ const AgroProducts = (props) => {
         <Button variant="contained" style={{height: '50px'}} sx={{backgroundColor: "var(--yellow)", fontFamily:'Gothicb'}} startIcon={<PersonSearchIcon fontSize='large' />}>
           Search
         </Button>
-      </Stack>
+      </Stack> */}
 
 
 
@@ -118,7 +117,7 @@ const AgroProducts = (props) => {
           return (
             <Card sx={{ maxWidth: 280, backgroundColor: '#21391f', borderRadius: '20px' }}>
               <CardActionArea onClick={()=>{
-                router.push('/trader-dashboard/agro-product-details/'+ product?.user_id+ 'and'+product?.id)
+                router.push('trader-dashboard/agro-product-details/'+ product?.user_id+ 'and'+product?.id)
                 setLoaderOpen(true)
               }}> 
                   <CardMedia

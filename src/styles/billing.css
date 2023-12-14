@@ -50,13 +50,13 @@
     border-left: 2px solid #f5f6f8
 }
 
-.billing-page .activity-checkout .checkout-item:first-child {
+/* .billing-page .activity-checkout .checkout-item:first-child {
     border-color: #3b76e1
 }
 
 .billing-page .activity-checkout .checkout-item:first-child:after {
     background-color: #3b76e1
-}
+} */
 
 .table {
     --bs-table-bg: transparent !important;
@@ -178,13 +178,24 @@
     margin-top: -50px
 }
 
-.billing-page .card-radio-input {
-    display: none
+.billing-page .activity-checkout .transportation-select {
+    border-color: #3b76e1
 }
 
-.billing-page .card-radio-input:checked+.card-radio {
+.billing-page .activity-checkout .transportation-select:after {
+    background-color: #3b76e1
+}
+
+.billing-page .card-radio-input {
+    display: none;
     border-color: #3b76e1 !important
 }
+
+.billing-page .card-radio.cash {
+    border-color: #3b76e1 !important
+}
+
+
 
 
 .billing-page .font-size-16 {

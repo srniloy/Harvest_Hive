@@ -167,7 +167,7 @@ export async function POST(req, { params }) {
         }
         try {
             const sqlLQuery = "SELECT name, phone, address, quantity, price, amount, offered_by, sales_id, project_id, offers_table.id as offer_id " +
-                "FROM (SELECT * FROM offers WHERE sales_id=? AND project_id =?) AS offers_table " +
+                "FROM (SELECT * FROM offers WHERE sales_id=? AND project_id =? AND status = 'Pending') AS offers_table " +
                 "INNER JOIN users ON offers_table.offered_by = users.id";
             const values = [data.sales_id, data.project_id]
             const rows = await dbConnection.query(sqlLQuery, values);
@@ -208,7 +208,206 @@ export async function POST(req, { params }) {
         return new Response(JSON.stringify(res));
     }
 
+    else if (params.instruction == 'get_order_info') {
+        const data = await req.json()
+        console.log(data)
+        let res = {
+            message: 'Getting Order info is successfull',
+            status: 200,
+            data: {}
+        }
+        try {
+            const sqlLQuery = "SELECT projects.product_name as product, quantity, price, amount " +
+                "FROM (((SELECT * FROM orders WHERE id=?) AS order_table " +
+                "INNER JOIN projects ON order_table.product_id = projects.id) " +
+                "INNER JOIN offers ON offers.id = order_table.offer_id)"
 
+            const values = [data.order_id]
+            const rows = await dbConnection.query(sqlLQuery, values);
+            res.data = rows[0][0]
+        } catch (error) {
+            res.message = 'Database error occured'
+            res.status = 500
+            console.log(error)
+        }
+
+        return new Response(JSON.stringify(res));
+    }
+
+    else if (params.instruction == 'get_stocked_products') {
+        const data = await req.json()
+        // console.log(data)
+        let orderData = {}
+        let res = {
+            message: 'Getting stocked products is successfull',
+            status: 200,
+            data: {}
+        }
+        try {
+
+            const sqlLQuery2 = "SELECT projects.product_name AS product, projects.img AS img, offers.quantity as quantity, offers.price as price, offers.amount as amount, order_table.id AS order_id, farmer_sales.collection_date AS harvest_time " +
+                "FROM ((((SELECT * FROM orders WHERE buyer_id =? AND status=?) AS order_table " +
+                "INNER JOIN projects ON order_table.product_id = projects.id) " +
+                "INNER JOIN offers ON offers.id = order_table.offer_id) " +
+                "INNER JOIN farmer_sales ON farmer_sales.id = order_table.sales_id)"
+
+            const values2 = [data.user_id, 'Complete']
+
+            const rows = await dbConnection.query(sqlLQuery2, values2);
+
+            res.data = rows[0]
+            console.log(rows[0])
+        } catch (error) {
+            res.message = 'Database error occured'
+            res.status = 500
+            console.log(error)
+        }
+
+        return new Response(JSON.stringify(res));
+    }
+
+
+    else if (params.instruction == 'get_transaction_lists_for_trader') {
+        const data = await req.json()
+        // console.log(data)
+        let orderData = {}
+        let res = {
+            message: 'Getting stocked products is successfull',
+            status: 200,
+            data: {}
+        }
+        try {
+
+            const sqlLQuery2 = "SELECT projects.product_name AS product, projects.img AS img, offers.quantity as quantity, transports.cost as transport_cost, " +
+                "offers.price as price, users.name as seller_name, offers.amount as amount, order_table.id AS order_id, order_table.date AS date " +
+                "FROM ((((((SELECT * FROM orders WHERE buyer_id =?) AS order_table " +
+                "INNER JOIN users ON users.id = order_table.seller_id) " +
+                "INNER JOIN projects ON order_table.product_id = projects.id) " +
+                "INNER JOIN offers ON offers.id = order_table.offer_id) " +
+                "INNER JOIN farmer_sales ON farmer_sales.id = order_table.sales_id) " +
+                "INNER JOIN transports ON transports.order_id = order_table.id)"
+
+            const values2 = [data.user_id]
+
+            const rows = await dbConnection.query(sqlLQuery2, values2);
+
+            res.data = rows[0]
+            // console.log(rows[0])
+        } catch (error) {
+            res.message = 'Database error occured'
+            res.status = 500
+            console.log(error)
+        }
+
+        return new Response(JSON.stringify(res));
+    }
+
+
+    else if (params.instruction == 'get_transaction_lists_for_farmer') {
+        const data = await req.json()
+        // console.log(data)
+        let orderData = {}
+        let res = {
+            message: 'Getting stocked products is successfull',
+            status: 200,
+            data: {}
+        }
+        try {
+
+            const sqlLQuery2 = "SELECT projects.product_name AS product, projects.img AS img, offers.quantity as quantity, transports.cost as transport_cost, " +
+                "offers.price as price, users.name as buyer_name, offers.amount as amount, order_table.id AS order_id, order_table.date AS date " +
+                "FROM ((((((SELECT * FROM orders WHERE seller_id =?) AS order_table " +
+                "INNER JOIN users ON users.id = order_table.buyer_id) " +
+                "INNER JOIN projects ON order_table.product_id = projects.id) " +
+                "INNER JOIN offers ON offers.id = order_table.offer_id) " +
+                "INNER JOIN farmer_sales ON farmer_sales.id = order_table.sales_id) " +
+                "INNER JOIN transports ON transports.order_id = order_table.id)"
+
+            const values2 = [data.user_id]
+
+            const rows = await dbConnection.query(sqlLQuery2, values2);
+
+            res.data = rows[0]
+            // console.log(rows[0])
+        } catch (error) {
+            res.message = 'Database error occured'
+            res.status = 500
+            console.log(error)
+        }
+
+        return new Response(JSON.stringify(res));
+    }
+
+
+    else if (params.instruction == 'total_calculations') {
+        const data = await req.json()
+        console.log('data')
+        console.log(data)
+        let res = {
+            message: 'Sales Information is successfully fetched',
+            status: 200,
+            data: {}
+        }
+        try {
+            const sqlLQuery = "SELECT SUM(total_expense) AS expense, SUM(total_sales) AS sales, SUM(total_revenue) AS revenue FROM projects WHERE created_by =?";
+            const values = [data.user_id]
+            const rows = await dbConnection.query(sqlLQuery, values);
+            res.data = rows[0][0]
+            console.log(res.data)
+        } catch (error) {
+            res.message = 'Database error occured'
+            res.status = 500
+            console.log(error)
+        }
+
+        return new Response(JSON.stringify(res));
+    }
+    else if (params.instruction == 'total_calculations_for_trader') {
+        const data = await req.json()
+        console.log('data')
+        console.log(data)
+        let res = {
+            message: 'Sales Information is successfully fetched',
+            status: 200,
+            data: {}
+        }
+        try {
+            const sqlLQuery = "SELECT SUM(total_expense) AS expense, SUM(total_sales) AS sales, SUM(total_revenue) AS revenue FROM projects WHERE created_by =?";
+            const values = [data.user_id]
+            const rows = await dbConnection.query(sqlLQuery, values);
+            res.data = rows[0][0]
+            console.log(res.data)
+        } catch (error) {
+            res.message = 'Database error occured'
+            res.status = 500
+            console.log(error)
+        }
+
+        return new Response(JSON.stringify(res));
+    }
+    else if (params.instruction == 'get_project_info_for_graph') {
+        const data = await req.json()
+        console.log('data')
+        console.log(data)
+        let res = {
+            message: 'Sales Information is successfully fetched',
+            status: 200,
+            data: {}
+        }
+        try {
+            const sqlLQuery = "SELECT * FROM projects WHERE created_by =?";
+            const values = [data.user_id]
+            const rows = await dbConnection.query(sqlLQuery, values);
+            res.data = rows[0]
+            console.log(res.data)
+        } catch (error) {
+            res.message = 'Database error occured'
+            res.status = 500
+            console.log(error)
+        }
+
+        return new Response(JSON.stringify(res));
+    }
 
 
 

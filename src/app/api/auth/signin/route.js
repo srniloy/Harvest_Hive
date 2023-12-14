@@ -38,7 +38,6 @@ export async function POST(request) {
                     user_id: rows[0].id,
                     user_type: rows[0].type
                 }
-
             }
         }
 

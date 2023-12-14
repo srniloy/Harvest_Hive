@@ -155,7 +155,7 @@ const BuyingTable = ({product_id}) => {
         };
     
         const res = await fetch(
-        'http://localhost:3000/api/get/get_product_pending_sales',
+        '/api/get/get_product_pending_sales',
         postData
         )
         const response = await res.json()
@@ -186,7 +186,7 @@ const BuyingTable = ({product_id}) => {
             };
         
             const res = await fetch(
-            'http://localhost:3000/api/add/add_offers',
+            '/api/add/add_offers',
             postData
             )
             const response = await res.json()

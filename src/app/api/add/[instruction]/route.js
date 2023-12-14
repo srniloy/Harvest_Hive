@@ -90,6 +90,30 @@ export async function POST(req, { params }) {
 
         return new Response(JSON.stringify(res));
     }
+    else if (params.instruction == 'add_orders') {
+        const { row, current_user } = await req.json()
+        const order_id = row.farmer_id[0] + current_user[0] + new Date().valueOf()
+        const date = new Date().toDateString()
+        let res = {
+            message: 'Order is Successfully Stored',
+            status: 200,
+            order_id: order_id
+        }
+        console.log(order_id)
+        try {
+            const sqlLQuery = "INSERT INTO orders (id, seller_id, buyer_id, product_id, sales_id, offer_id, date) VALUES (?,?,?,?,?,?,?)"
+            const values = [order_id, row.farmer_id, current_user, row.product_id, row.sales_id, row.offer_id, date]
+            await dbConnection.query(sqlLQuery, values);
+
+        } catch (error) {
+            res.message = 'Database error occured'
+            res.status = 500
+            // new Error(error)
+            console.log(error)
+        }
+
+        return new Response(JSON.stringify(res));
+    }
 
 
 }
