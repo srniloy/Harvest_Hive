@@ -81,26 +81,77 @@ const Searching = () => {
     setPage(0);
   };
 
+  const [locations, setLocations] = React.useState([]);
+  const [products, setProducts] = React.useState([]);
+
+  const fetchLocations = async()=>{
+    const postData = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    const res = await fetch(
+      '/api/get/get_locations',
+      postData
+    )
+    const response = await res.json()
+    
+    let tempLocations = []
+    response.data.map(data =>{
+      tempLocations.push({label: data.address})
+    })
+    setLocations(tempLocations)
+  }
+
+  const fetchProducts = async()=>{
+    const postData = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    const res = await fetch(
+      '/api/get/get_product_names',
+      postData
+    )
+    const response = await res.json()
+    console.log(response)
+    let tempProducts = []
+    response.data.map(data =>{
+      tempProducts.push({label: data.product_name})
+    })
+    setProducts(tempProducts)
+  }
+
+  React.useEffect(()=>{
+    fetchLocations()
+    fetchProducts()
+  }, [])
+  
+
   return (
     <div className="frmr-trader-searching-container">
-      <Stack direction='row' justifyContent='left' gap={5} marginTop='50px'>
+      <Stack direction='row' justifyContent='left' alignItems='end' gap={5} marginTop='50px'>
         <Autocomplete
           disablePortal
           id="combo-box-demo"
-          options={top100Films}
+          options={locations}
           sx={{ width: 300 }}
           renderInput={(params) => <TextField {...params} variant='filled' label="Location" />}
         />
-        <Autocomplete
+        {/* <Autocomplete
           disablePortal
           id="combo-box-demo"
-          options={top100Films}
+          options={products}
           sx={{ width: 300 }}
           renderInput={(params) => <TextField {...params} variant='filled' label="Product" />}
-        />
+        /> */}
 
 
-        <Button variant="contained" sx={{backgroundColor: "var(--yellow)", fontFamily:'Gothicb'}} startIcon={<PersonSearchIcon fontSize="large" />}>
+        <Button variant="contained" sx={{backgroundColor: "var(--yellow)", height: '40px', fontFamily:'Gothicb'}} startIcon={<PersonSearchIcon fontSize="large" />}>
           Search
         </Button>
       </Stack>

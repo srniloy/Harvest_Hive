@@ -120,7 +120,7 @@ const Transactions = (props) => {
       };
 
       const res = await fetch(
-      '/api/get/get_transaction_lists_for_trader',
+      '/api/users/wholesaler/get/get_transaction_lists_for_trader',
       postData
       )
       const response = await res.json()

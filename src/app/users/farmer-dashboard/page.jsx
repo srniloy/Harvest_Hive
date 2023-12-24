@@ -174,7 +174,7 @@ const FarmerDashboard = () => {
           />
           <ul role="list" class="fd-nav-icon-list">
 
-              <Tooltip title='Messages'>
+              {/* <Tooltip title='Messages'>
                 <Link href={'farmer-dashboard/message'}>
                 <IconButton size="large" aria-label="show 4 new mails" color="#fff">
                   <Badge badgeContent={4} color="error">
@@ -196,7 +196,7 @@ const FarmerDashboard = () => {
                     <NotificationsIcon className='fd-nav-icon'/>
                   </Badge>
                 </IconButton>
-              </Tooltip>
+              </Tooltip> */}
 
               <Menu
               sx={{ mt: '45px' }}
@@ -427,7 +427,10 @@ const FarmerDashboard = () => {
                   size="large"
                   aria-label="show 17 new notifications"
                   color="#fff"
-                  onClick={() => logoutAction(router)}
+                  onClick={() => {
+                    logoutAction(router) 
+                    setIsLoader(true)
+                  }}
                 >
                   <LogoutIcon className='fd-nav-icon'/>
                 </IconButton>

@@ -10,7 +10,7 @@ import { TextField } from '@mui/material';
 import '@styles/farmer-dashboard.css'
 import { Suspense } from 'react';
 import Loading from '../../loading';
-import BuyingTable from '@components/trader/BuyingTable';
+import BuyingTable from '@components/wholesaler/BuyingTable';
 import Grid from '@mui/material/Unstable_Grid2';
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
@@ -36,7 +36,7 @@ const productsImg = [
 const ProjectDetails = ({params}) => {
   
   const [product, setProducts] = React.useState({})
-  const [user_id, product_id] = params.product_id.split('and')
+  
 
   const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: '#1d3133',
@@ -53,11 +53,11 @@ const ProjectDetails = ({params}) => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({project_id: product_id}),
+      body: JSON.stringify({sales_id: params.sales_id}),
     };
 
     const res = await fetch(
-      '/api/get/project_details',
+      '/api/users/wholesaler/get/product_details',
       postData
     )
     const response = await res.json()
@@ -70,30 +70,30 @@ const ProjectDetails = ({params}) => {
     
   }, []);
 
-  const [user, setUser] = React.useState(undefined)
+  // const [user, setUser] = React.useState(undefined)
 
-  const fetchUser = async ()=>{
-    const postData = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({user_id: user_id}),
-    };
+  // const fetchUser = async ()=>{
+  //   const postData = {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: JSON.stringify({user_id: user_id}),
+  //   };
 
-    const res = await fetch(
-      '/api/get/projects_user_details',
-      postData
-    )
-    const response = await res.json()
-    // setProjects(response.data)
-    setUser(response.data)
-  }
+  //   const res = await fetch(
+  //     '/api/get/projects_user_details',
+  //     postData
+  //   )
+  //   const response = await res.json()
+  //   // setProjects(response.data)
+  //   setUser(response.data)
+  // }
   
-  React.useEffect(() => {
-    fetchUser()
+  // React.useEffect(() => {
+  //   fetchUser()
     
-  }, []);
+  // }, []);
 
 
 
@@ -113,24 +113,11 @@ const ProjectDetails = ({params}) => {
       style={{height: '100%', width: '100%', objectFit: 'cover'}} alt="" srcset="" />
       </div>
       <div class="w-layout-blockcontainer fpd-other-part-container w-container">
-        <h1 class="fpd-project-detail-heading" style={{marginTop: '10px'}}>{product?.title} </h1>
+        <h1 class="fpd-project-detail-heading" style={{marginTop: '10px'}}>{product?.name} </h1>
         <div class="fpd-basic-info" style={{marginTop: '50px', marginBottom: '50px'}}>
           <Stack direction={'row'} gap={'20px'}>
 
-                <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-                  <div style={{backgroundColor: '#244441' ,
-                  display: 'flex',
-                  gap: '10px',
-                  padding: '20px 30px',
-                  borderRadius: '10px'
-                  }}>
-                    <InventoryIcon fontSize='large' style={{color: '#f7c35f'}}/>
-                    <div>
-                      <h6 style={{color: "#f7c35a", fontWeight: 'bold'}}>Product Type</h6>
-                      <p style={{margin: '0', color: '#eee'}}>{product?.product_name} </p>
-                    </div>
-                  </div>
-                </div>
+                
 
 
 
@@ -144,7 +131,7 @@ const ProjectDetails = ({params}) => {
                     <AccountBoxIcon fontSize='large' style={{color: '#f7c35f'}}/>
                     <div>
                       <h6 style={{color: "#f7c35a", fontWeight: 'bold'}}>Farmer Name</h6>
-                      <p style={{margin: '0', color: '#eee'}}>{user?.name}</p>
+                      <p style={{margin: '0', color: '#eee'}}>{product?.creator}</p>
                     </div>
                   </div>
                 </div>
@@ -159,7 +146,7 @@ const ProjectDetails = ({params}) => {
                     <LocationOnIcon fontSize='large' style={{color: '#f7c35f'}}/>
                     <div>
                       <h6 style={{color: "#f7c35a", fontWeight: 'bold'}}>Location</h6>
-                      <p style={{margin: '0', color: '#eee'}}>{user?.address}</p>
+                      <p style={{margin: '0', color: '#eee'}}>{product?.location}</p>
                     </div>
                   </div>
                 </div>
@@ -190,7 +177,7 @@ const ProjectDetails = ({params}) => {
                     <ContactPhoneIcon fontSize='large' style={{color: '#f7c35f'}}/>
                     <div>
                       <h6 style={{color: "#f7c35a", fontWeight: 'bold'}}>Phone Number</h6>
-                      <p style={{margin: '0', color: '#eee'}}>{user?.phone}</p>
+                      <p style={{margin: '0', color: '#eee'}}>{product?.owner_phone}</p>
                     </div>
                   </div>
                 </div>
@@ -225,7 +212,7 @@ const ProjectDetails = ({params}) => {
         </div>
         <div className="fpd-project-details-tab-container">
 
-        <BuyingTable product_id={product_id}/>
+        <BuyingTable data = {{product}}/>
         
         </div>
       </div>

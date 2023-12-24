@@ -39,19 +39,21 @@ const logoutAction = async (router) => {
 };
 
 const uploadImg = async (img) => {
-    console.log(img)
-    const data = new FormData()
-    data.set('img', img)
-    const httpData = {
-        method: 'POST',
-        body: data,
+    if (img) {
+        console.log(img)
+        const data = new FormData()
+        data.set('img', img)
+        const httpData = {
+            method: 'POST',
+            body: data,
+        }
+        const res = await fetch(
+            `/api/add/img`,
+            httpData,
+        )
+        const resp = await res.json();
+        console.log(resp)
     }
-    const res = await fetch(
-        `/api/add/img`,
-        httpData,
-    )
-    const resp = await res.json();
-    console.log(resp)
     // router.push('/dashboard1')
 }
 

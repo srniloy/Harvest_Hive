@@ -55,7 +55,7 @@ const AgroProducts = (props) => {
       };
   
       const res = await fetch(
-        '/api/get/get_products',
+        '/api/users/wholesaler/get/get_products',
         postData
       )
       const response = await res.json()
@@ -152,7 +152,7 @@ const AgroProducts = (props) => {
       };
   
       const res = await fetch(
-        '/api/get/get_filtered_products',
+        '/api/users/wholesaler/get/get_filtered_products',
         postData
       )
       const response = await res.json()
@@ -234,7 +234,7 @@ const AgroProducts = (props) => {
           return (
             <Card sx={{ maxWidth: 280, backgroundColor: '#21391f', borderRadius: '20px' }}>
               <CardActionArea onClick={()=>{
-                router.push('trader-dashboard/agro-product-details/'+ product?.user_id+ 'and'+product?.id)
+                router.push('wholesaler-dashboard/agro-product-details/'+ product?.sales_id)
                 setLoaderOpen(true)
               }}> 
                   <CardMedia
@@ -248,14 +248,12 @@ const AgroProducts = (props) => {
                   />
                   <CardContent>
                     <Typography style={{fontFamily: 'Roboto-Bold', fontWeight: 700}} variant="h5" component="div">
-                      {product?.title}
+                      {product?.name}
                     </Typography>
                     <Typography variant="body2" letterSpacing={'.5px'} color="text.secondary">
-                      <b>Product: </b>{product?.name}<br/>
                       <b>Quantity: </b>{product?.quantity} kg <br/>
                       <b>Price: </b>{product?.price} taka (per kg) <br/>
                       <b>Location</b> {product?.location}<br/>
-                      <b>Harvest time: </b> {product?.harvest_time} <br/>
                     </Typography>
                     <Typography variant="body2" color="text.secondary" align='right' style={{marginTop: '5px'}}>
                       By <Link href={'/farmer-dashboard'}> {product?.creator} </Link><br/>

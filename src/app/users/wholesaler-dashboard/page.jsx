@@ -6,8 +6,8 @@ import IconButton from '@mui/material/IconButton';
 import Badge from '@mui/material/Badge';
 import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import BusinessAnalytics from '@components/trader/BusinessAnalytics';
-import Transactions from '@components/trader/Transactions';
+import BusinessAnalytics from '@components/wholesaler/BusinessAnalytics';
+import Transactions from '@components/wholesaler/Transactions';
 import LogoutIcon from '@mui/icons-material/Logout';
 
 import Typography from '@mui/material/Typography';
@@ -40,10 +40,10 @@ import Link from 'next/link';
 import UserContext from '@context/userContext';
 import { Suspense } from 'react';
 import Loading from './loading';
-import AgroProducts from '@components/trader/AgroProducts';
-import StockedProducts from '@components/trader/StockedProducts';
+import AgroProducts from '@components/wholesaler/AgroProducts';
+import StockedProducts from '@components/wholesaler/StockedProducts';
 import Transportation from '@components/Transportation';
-import BuyProducts from '@components/trader/BuyProducts';
+import BuyProducts from '@components/wholesaler/BuyProducts';
 import { Loader } from '@app/loading';
 
 
@@ -100,7 +100,7 @@ const ProfileInfoUpdate = async (user) => {
 
 
 
-const TraderDashboard = (props) => {
+const Wholesaler = (props) => {
   const {user, setUser} = useContext(UserContext)
   const [profileImgInfo, setProfileImgInfo] = React.useState(undefined)
   const [isLoad, setIsLoader] = React.useState(true); 
@@ -185,7 +185,7 @@ const TraderDashboard = (props) => {
       setIsLoader(false)
       setTabContainer([
         <Suspense fallback={<Loading/>}>
-          <BusinessAnalytics info={{user_id: user?.id}}/>
+          <BuyProducts info={{user_id: user?.id}}/>
         </Suspense>
       ]);
     
@@ -522,9 +522,9 @@ const TraderDashboard = (props) => {
           </div>
           <div class="frmr-other-part">
             <div class="w-layout-hflex frmr-tab-link-container">
-              <div class="frmr-tab-link-wrapper" >
+              {/* <div class="frmr-tab-link-wrapper" >
                 <a class="fpd-tab-link active" onClick={(e) => frmrTabClickAction(e)}>Business Analytics</a>
-              </div>
+              </div> */}
               <div class="frmr-tab-link-wrapper">
                 <a class="fpd-tab-link" onClick={(e) => frmrTabClickAction(e)}>Buy Products</a>
               </div>
@@ -673,4 +673,4 @@ const TraderDashboard = (props) => {
   )
 }
 
-export default TraderDashboard
+export default Wholesaler

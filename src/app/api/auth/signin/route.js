@@ -64,7 +64,7 @@ export async function POST(request) {
     // }
     const cookieName = `${res.user_data.user_type}Token`;
     response.cookies.set(cookieName, token, {
-        expiresIn: '1h',
+        expiresIn: '1d',
         httpOnly: true
     })
 

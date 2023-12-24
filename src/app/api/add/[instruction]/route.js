@@ -1,3 +1,4 @@
+import { getCurrentDate } from "@utils/custom_date";
 import { dbConnection } from "@utils/db_connection";
 
 
@@ -93,7 +94,7 @@ export async function POST(req, { params }) {
     else if (params.instruction == 'add_orders') {
         const { row, current_user } = await req.json()
         const order_id = row.farmer_id[0] + current_user[0] + new Date().valueOf()
-        const date = new Date().toDateString()
+        const date = getCurrentDate()
         let res = {
             message: 'Order is Successfully Stored',
             status: 200,

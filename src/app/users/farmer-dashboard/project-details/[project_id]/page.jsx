@@ -135,8 +135,7 @@ const ProjectDetails = ({params}) => {
         `/api/add/img`,
         httpData,
     )
-    const resp = await res.json();
-    console.log(resp)
+    console.log(res)
   }
 
 

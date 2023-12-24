@@ -91,7 +91,7 @@ const fetchData = async ()=>{
     };
 
     const res = await fetch(
-    '/api/get/get_order_info',
+    '/api/users/wholesaler/get/get_order_info',
     postData
     )
     const response = await res.json()
@@ -118,17 +118,18 @@ const confirmOrder = async ()=>{
         body: JSON.stringify({
             order_id: params.order_id,
             transportInfo: transportInfo,
+            order_details: orderDetails
         }),
         };
     
         const res = await fetch(
-        '/api/update/confirm_order',
+        '/api/users/wholesaler/update/confirm_order',
         postData
         )
         const response = await res.json()
         // console.log(response.data)
         if(response.status == 200)
-            router.push('/trader-dashboard')
+            router.push('/users/wholesaler-dashboard')
 }
 
 

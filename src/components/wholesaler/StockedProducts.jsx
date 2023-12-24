@@ -29,7 +29,7 @@ const StockedProducts = (props) => {
       };
   
       const res = await fetch(
-        '/api/get/get_stocked_products',
+        '/api/users/wholesaler/get/get_stocked_products',
         postData
       )
       const response = await res.json()
@@ -58,7 +58,7 @@ const StockedProducts = (props) => {
             return (
               <Card sx={{ maxWidth: 280, backgroundColor: '#21391f', borderRadius: '20px' }}>
                 <CardActionArea onClick={()=>{
-                  router.push(`/users/trader-dashboard/stocked-product-details/${product?.product}`)
+                  router.push(`/users/wholesaler-dashboard/stocked-product-details/${product?.product}`)
                   setLoaderOpen(true)
                 }}> 
                     <CardMedia

@@ -118,6 +118,7 @@ const confirmOrder = async ()=>{
         body: JSON.stringify({
             order_id: params.order_id,
             transportInfo: transportInfo,
+            order_details: orderDetails,
         }),
         };
     
@@ -299,7 +300,7 @@ const confirmOrder = async ()=>{
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <th scope="row">Tometo</th>
+                                        <th scope="row">{orderDetails?.product}</th>
                                         <td>
                                             {orderDetails?.quantity} kg
                                         </td>
